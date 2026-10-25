@@ -1,0 +1,60 @@
+/* BizPilot NG - mobile-first styles */
+*{box-sizing:border-box}
+:root{--green:#0f7b4f;--green-d:#0a5c3a;--bg:#f4f6f5;--card:#fff;--ink:#1d2521;--muted:#66726c;--red:#b42318;--amber:#b54708;--ok:#067647;--line:#dfe5e2}
+html,body{margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;-webkit-text-size-adjust:100%;padding-bottom:70px}
+.hidden{display:none!important}
+.topbar{position:sticky;top:0;z-index:10;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;gap:8px}
+.brand{font-weight:700;font-size:18px}
+.nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;border-top:1px solid var(--line);z-index:10}
+.nav-btn{flex:1;padding:12px 2px;border:0;background:none;font-size:13px;color:var(--muted)}
+.nav-btn.active{color:var(--green);font-weight:700}
+.link-btn{background:none;border:0;color:#fff;text-decoration:underline;font-size:14px;padding:6px}
+main.view{padding:14px;max-width:640px;margin:0 auto}
+h1{font-size:22px;margin:4px 0 6px}
+h2{font-size:20px;margin:6px 0 12px}
+h3{font-size:17px;margin:18px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.stat strong{font-size:19px;word-break:break-word}
+.wide-stat{margin:0 0 12px}
+.label{font-size:13px;color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+label{display:block;font-size:14px;color:var(--ink);margin:10px 0;font-weight:600}
+input,select{display:block;width:100%;margin-top:6px;padding:12px;font-size:16px;border:1px solid #c5cfca;border-radius:10px;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--green);border-color:var(--green)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.row input{flex:1;min-width:90px;margin-top:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.btn{padding:12px 16px;font-size:15px;border:1px solid #c5cfca;border-radius:10px;background:#fff;color:var(--ink);font-weight:600;min-height:46px}
+.btn.primary{background:var(--green);border-color:var(--green);color:#fff}
+.btn.ghost{background:transparent;border-style:dashed;margin-top:10px}
+.btn.wide{width:100%;margin-top:10px}
+.btn:disabled{opacity:.55}
+.btn.small-btn{padding:6px 10px;min-height:34px;font-size:13px}
+.tabs{display:flex;gap:6px;margin:8px 0 12px}
+.tab{flex:1;padding:10px;border:1px solid var(--line);background:#fff;border-radius:10px;font-weight:600}
+.tab.active{background:var(--green);color:#fff;border-color:var(--green)}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.item .meta{font-size:13px;color:var(--muted);margin-top:3px}
+.item .actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.badge{display:inline-block;font-size:12px;padding:3px 8px;border-radius:999px;background:#fef0c7;color:var(--amber);font-weight:700}
+.badge.bad{background:#fee4e2;color:var(--red)}
+.badge.ok{background:#d1fadf;color:var(--ok)}
+.state{text-align:center;padding:18px;color:var(--muted)}
+.state.small{padding:8px;text-align:left}
+.error{color:var(--red);font-size:14px;margin:8px 0}
+.success{color:var(--ok);font-size:14px;margin:8px 0}
+.warn{color:var(--amber);font-size:14px;margin:8px 0}
+.total{font-size:18px;margin:12px 0}
+.banner{background:var(--red);color:#fff;padding:10px 14px;font-size:14px;text-align:center}
+.demo-banner{background:#fef0c7;color:#7a4a00;padding:8px 14px;font-size:13px;text-align:center;font-weight:600}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;background:#1d2521;color:#fff;padding:12px 16px;border-radius:10px;z-index:20;max-width:90%;font-size:14px}
+.toast.ok{background:var(--ok)}
+.toast.bad{background:var(--red)}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (min-width:700px){body{padding-bottom:0}.nav{position:static;justify-content:center}}

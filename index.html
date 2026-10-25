@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#0f7b4f">
+  <title>BizPilot NG</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">BizPilot NG</div>
+    <nav id="nav" class="nav hidden">
+      <button data-view="dashboard" class="nav-btn active">Home</button>
+      <button data-view="sell" class="nav-btn">Sell</button>
+      <button data-view="products" class="nav-btn">Stock</button>
+      <button data-view="expenses" class="nav-btn">Expenses</button>
+      <button data-view="debts" class="nav-btn">Debts</button>
+    </nav>
+    <button id="logout-btn" class="link-btn hidden">Log out</button>
+  </header>
+
+  <div id="banner" class="banner hidden" role="alert"></div>
+  <div id="demo-banner" class="demo-banner hidden">DEMO DATA: products starting with "DEMO" are sample data only. Delete them before real use.</div>
+
+  <!-- AUTH -->
+  <main id="view-auth" class="view">
+    <section class="card">
+      <h1>Welcome to BizPilot NG</h1>
+      <p class="muted">Track sales, stock, expenses and debts for your shop.</p>
+      <div class="tabs">
+        <button id="tab-login" class="tab active" type="button">Log in</button>
+        <button id="tab-signup" class="tab" type="button">Sign up</button>
+      </div>
+      <form id="auth-form" novalidate>
+        <div id="signup-only" class="hidden">
+          <label>Shop name
+            <input id="auth-shop" type="text" maxlength="120" autocomplete="organization" placeholder="e.g. Mama Ngozi Provisions">
+          </label>
+        </div>
+        <label>Email
+          <input id="auth-email" type="email" autocomplete="email" inputmode="email" required>
+        </label>
+        <label>Password (at least 8 characters)
+          <input id="auth-password" type="password" minlength="8" autocomplete="current-password" required>
+        </label>
+        <p id="auth-error" class="error hidden"></p>
+        <p id="auth-info" class="success hidden"></p>
+        <button id="auth-submit" class="btn primary wide" type="submit">Log in</button>
+      </form>
+      <p class="muted small">After sign-up, open the verification email and tap the link, then come back and log in.</p>
+    </section>
+  </main>
+
+  <!-- DASHBOARD -->
+  <main id="view-dashboard" class="view hidden">
+    <h2 id="dash-title">Today</h2>
+    <div id="dash-loading" class="state">Loading your numbers...</div>
+    <div id="dash-error" class="state error hidden"></div>
+    <div id="dash-cards" class="cards hidden">
+      <div class="stat"><span class="label">Sales today</span><strong id="st-sales">₦0.00</strong></div>
+      <div class="stat"><span class="label">Expenses today</span><strong id="st-exp">₦0.00</strong></div>
+      <div class="stat"><span class="label">Estimated profit</span><strong id="st-profit">₦0.00</strong></div>
+      <div class="stat"><span class="label">Unpaid debts</span><strong id="st-debt">₦0.00</strong></div>
+    </div>
+    <p class="muted small hidden" id="dash-note">Estimated profit = sales minus cost of goods (COGS). It is not your real profit until expenses are taken off.</p>
+    <h3>Low stock</h3>
+    <div id="low-stock" class="list"></div>
+    <div id="low-empty" class="state hidden">Nothing is low right now.</div>
+    <div class="row">
+      <button class="btn primary" data-go="sell">Record a sale</button>
+      <button class="btn" data-go="expenses">Add expense</button>
+    </div>
+    <button id="demo-btn" class="btn ghost wide">Load demo products (sample only)</button>
+  </main>
+
+  <!-- PRODUCTS -->
+  <main id="view-products" class="view hidden">
+    <h2>Stock</h2>
+    <form id="product-form" class="card" novalidate>
+      <input type="hidden" id="p-id">
+      <label>Product name <input id="p-name" type="text" maxlength="120" required></label>
+      <div class="grid2">
+        <label>Cost price (₦) <input id="p-cost" type="number" inputmode="decimal" min="0" step="0.01" required></label>
+        <label>Selling price (₦) <input id="p-sell" type="number" inputmode="decimal" min="0" step="0.01" required></label>
+        <label>Stock quantity <input id="p-stock" type="number" inputmode="numeric" min="0" step="1" required></label>
+        <label>Low stock alert at <input id="p-thr" type="number" inputmode="numeric" min="0" step="1" required></label>
+      </div>
+      <p id="p-error" class="error hidden"></p>
+      <p id="p-warn" class="warn hidden"></p>
+      <div class="row">
+        <button class="btn primary" type="submit" id="p-submit">Save product</button>
+        <button class="btn" type="button" id="p-cancel">Clear</button>
+      </div>
+    </form>
+    <div id="products-loading" class="state">Loading products...</div>
+    <div id="products-error" class="state error hidden"></div>
+    <div id="products-empty" class="state hidden">No products yet. Add your first product above.</div>
+    <div id="products-list" class="list"></div>
+  </main>
+
+  <!-- SELL -->
+  <main id="view-sell" class="view hidden">
+    <h2>Record a sale</h2>
+    <div class="card">
+      <label>Add product
+        <select id="s-product"></select>
+      </label>
+      <div class="row">
+        <input id="s-qty" type="number" inputmode="numeric" min="1" step="1" value="1" aria-label="quantity">
+        <button id="s-add" class="btn" type="button">Add to sale</button>
+      </div>
+      <div id="s-lines" class="list"></div>
+      <div id="s-empty" class="state small">No items yet.</div>
+      <p class="total">Total: <strong id="s-total">₦0.00</strong></p>
+      <label>Payment method
+        <select id="s-method">
+          <option value="cash">Cash</option>
+          <option value="transfer">Transfer</option>
+          <option value="card">Card (POS)</option>
+          <option value="credit">Credit (customer pays later)</option>
+        </select>
+      </label>
+      <div id="s-credit" class="hidden">
+        <label>Customer
+          <select id="s-customer"></select>
+        </label>
+        <label>New customer name (optional)
+          <input id="s-newcust" type="text" maxlength="120" placeholder="Type a name to add">
+        </label>
+        <label>Amount paid now (₦)
+          <input id="s-paid" type="number" inputmode="decimal" min="0" step="0.01" value="0">
+        </label>
+      </div>
+      <p id="s-error" class="error hidden"></p>
+      <p id="s-success" class="success hidden"></p>
+      <button id="s-complete" class="btn primary wide" type="button">Complete sale</button>
+    </div>
+    <p class="muted small">Stock goes down automatically when the sale is completed.</p>
+  </main>
+
+  <!-- EXPENSES -->
+  <main id="view-expenses" class="view hidden">
+    <h2>Expenses</h2>
+    <form id="expense-form" class="card" novalidate>
+      <label>Category
+        <select id="e-cat">
+          <option value="rent">Rent</option>
+          <option value="transport">Transport</option>
+          <option value="utilities">Utilities (light, water)</option>
+          <option value="salaries">Salaries</option>
+          <option value="stock_purchase">Stock purchase</option>
+          <option value="data_airtime">Data / airtime</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+      <label>Amount (₦) <input id="e-amt" type="number" inputmode="decimal" min="0" step="0.01" required></label>
+      <label>Date <input id="e-date" type="date" required></label>
+      <label>Note (optional) <input id="e-desc" type="text" maxlength="200"></label>
+      <p id="e-error" class="error hidden"></p>
+      <p id="e-success" class="success hidden"></p>
+      <button class="btn primary wide" type="submit">Save expense</button>
+    </form>
+    <div id="expenses-list" class="list"></div>
+  </main>
+
+  <!-- DEBTS -->
+  <main id="view-debts" class="view hidden">
+    <h2>Debts</h2>
+    <div class="stat wide-stat"><span class="label">Total unpaid</span><strong id="d-total">₦0.00</strong></div>
+    <div id="debts-loading" class="state">Loading debts...</div>
+    <div id="debts-error" class="state error hidden"></div>
+    <div id="debts-empty" class="state hidden">No open debts. Credit sales appear here.</div>
+    <div id="debts-list" class="list"></div>
+    <p id="r-error" class="error hidden"></p>
+    <p id="r-success" class="success hidden"></p>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="logic.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
